@@ -1,0 +1,5 @@
+{
+  "name": "EcoPay Terminal",
+  "description": "A simulation interface for a Reverse Vending Machine (RVM) handling plastic and paper recycling with multi-language support.",
+  "requestFramePermissions": []
+}
