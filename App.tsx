@@ -341,9 +341,14 @@ const App: React.FC = () => {
          {/* Simple Header for context (visible in select/insert modes) */}
          {step !== AppStep.WELCOME && step !== AppStep.SUCCESS && (
              <header className="p-6 flex justify-between items-center bg-black/20 backdrop-blur-sm border-b border-white/5">
-                 <div className="flex items-center gap-2 text-eco-400 font-bold text-xl">
-                    <Recycle /> EcoPay
-                 </div>
+                <button
+                  type="button"
+                  onClick={resetApp}
+                  className="flex items-center gap-2 text-eco-400 font-bold text-xl hover:text-white transition-colors"
+                  aria-label="EcoPay ana səhifə"
+                >
+                   <Recycle /> EcoPay
+                </button>
                  <div className="flex gap-2">
                      <span className="px-3 py-1 bg-white/10 rounded text-sm font-mono text-white/50">{lang.toUpperCase()}</span>
                  </div>
