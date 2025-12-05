@@ -5,8 +5,6 @@ import { TEXTS, POINTS_PER_PLASTIC, POINTS_PER_PAPER } from './constants';
 import Button from './components/Button';
 import { getEcoFact } from './services/geminiService';
 
-const STORAGE_KEY = 'ecopay-state';
-
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>(Language.AZE);
   const [step, setStep] = useState<AppStep>(AppStep.WELCOME);
@@ -73,7 +71,6 @@ const App: React.FC = () => {
     setStep(AppStep.WELCOME);
     setCount(0);
     setAiMessage("");
-    localStorage.removeItem(STORAGE_KEY);
   };
 
   // Auto-reset after success
@@ -85,46 +82,6 @@ const App: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [step]);
-
-  // Persist basic state so PWA ikonundan açanda axırıncı mərhələ saxlanılsın
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) return;
-      const parsed = JSON.parse(saved) as Partial<{
-        step: AppStep;
-        lang: Language;
-        material: MaterialType;
-        count: number;
-      }>;
-      if (parsed.lang && Object.values(Language).includes(parsed.lang)) {
-        setLang(parsed.lang);
-      }
-      if (parsed.material && Object.values(MaterialType).includes(parsed.material)) {
-        setMaterial(parsed.material);
-      }
-      if (typeof parsed.count === 'number' && parsed.count >= 0) {
-        setCount(parsed.count);
-      }
-      if (parsed.step && Object.values(AppStep).includes(parsed.step) && parsed.step !== AppStep.SUCCESS && parsed.step !== AppStep.PROCESSING) {
-        setStep(parsed.step);
-      }
-    } catch (e) {
-      console.error('State bərpa oluna bilmədi', e);
-    }
-  }, []);
-
-  // Yazılan hər dəyişikliyi saxla
-  useEffect(() => {
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ step, lang, material, count })
-      );
-    } catch (e) {
-      console.error('State saxlanıla bilmədi', e);
-    }
-  }, [step, lang, material, count]);
 
   // --- Renders ---
 
